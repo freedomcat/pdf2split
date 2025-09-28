@@ -1,7 +1,6 @@
 ## README_ja.md
 
-````markdown
-# pdf2split
+## pdf2split
 
 `pdf2split` は、大きな PDF ファイルを **章ごとに分割し、自動的にしおりを追加する** 軽量な Python スクリプトです。  
 このスクリプトは、学習教材（例：情報処理技術者試験のテキスト）を ChatGPT で扱いやすくするために作成されました。  
