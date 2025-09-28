@@ -27,11 +27,8 @@ def split_with_csv(pdf_path, csv_path, max_size):
     with open(csv_path, newline="", encoding="utf-8-sig") as f:
         reader_csv = csv.DictReader(f)
         for row in reader_csv:
-          print("DEBUG keys:", row.keys())
-          print("DEBUG row:", row)
           split_points.append((row["title"], int(row["page"])))
     split_points.sort(key=lambda x: x[1])
-
     for i, (title, start_page) in enumerate(split_points):
         end_page = split_points[i+1][1] if i+1 < len(split_points) else total_pages
         writer = PdfWriter()
@@ -45,8 +42,8 @@ def split_with_csv(pdf_path, csv_path, max_size):
            
             if buffer.tell() > max_size:
                 # remove last page safely
-                writer = drop_last_page(writer)
-                save_writer(writer, base_title, part, chunk_start, page_num)
+                safe_title = safe_filename(title)
+                save_pdf(writer, safe_title, part, chunk_start, page_num)
                 part += 1
 
                 writer = PdfWriter()
