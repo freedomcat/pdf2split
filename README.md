@@ -4,7 +4,7 @@
 # pdf2split
 
 `pdf2split` is a lightweight Python script to **split a large PDF into chapters based on a CSV index, or automatically by file size**.  
-It was designed to prepare OCR-processed textbooks for use with ChatGPT and other LLMs, which often have file upload limits (~20MB per file).
+It was designed to prepare large PDF files for use with ChatGPT and other LLMs, by splitting them into smaller, more manageable parts.
 
 ---
 
@@ -35,10 +35,15 @@ Prepare a CSV file with chapter titles and start pages (0-based):
 
 ```csv
 title,page
-Chapter 1: Getting Started with Algorithms,0
-Chapter 2: Basics of Pseudocode,45
-Chapter 3: Data Structures and Examples,110
+Chapter 1: Getting Started with Algorithms,1
+Chapter 2: Basics of Pseudocode,46
+Chapter 3: Data Structures and Examples,111
 ```
+
+### Notes on CSV
+
+* The `page` column uses **1-based numbering** (e.g., `1` means the first page of the PDF).
+* If `-csv` is omitted, the script will look for an `index.csv` file in the same folder as the PDF.
 
 Run the script:
 
@@ -78,6 +83,14 @@ python pdf2split.py -pdf input.pdf --target notebooklm
 * A separate PDF is generated for each chapter (if CSV provided) or by size chunks (if no CSV).
 * Filenames are automatically derived from chapter titles or the original PDF name.
 * If a file exceeds the size limit, it will be automatically split into multiple files, with sequential numbering appended to the filename.
+
+
+---
+
+### Additional Options
+
+* `--verbose` : Show detailed logs during processing.
+* `--log-file LOG.txt` : Save logs to a file in addition to console output.
 
 ---
 
