@@ -1,16 +1,16 @@
 ## README.md (English, MIT License included)
 
-
+````markdown
 # pdf2split
 
-`pdf2split` is a lightweight Python script to **split a large PDF into chapters based on a CSV index**.  
+`pdf2split` is a lightweight Python script to **split a large PDF into chapters based on a CSV index, or automatically by file size**.  
 It was designed to prepare OCR-processed textbooks for use with ChatGPT and other LLMs, which often have file upload limits (~20MB per file).
 
 ---
 
 ## Features
 - Split PDF into chapters using a CSV index
-- Add bookmarks to each output PDF
+- Or split PDF purely by size if no CSV is provided
 - Automatically check file size and split further if over the limit
 - Pure Python, no external dependencies except [PyPDF2](https://pypi.org/project/PyPDF2/)
 
@@ -29,7 +29,9 @@ pip install PyPDF2
 
 ## Usage
 
-1. Prepare a CSV file with chapter titles and start pages (0-based):
+### 1. Split by CSV
+
+Prepare a CSV file with chapter titles and start pages (0-based):
 
 ```csv
 title,page
@@ -38,13 +40,13 @@ Chapter 2: Basics of Pseudocode,45
 Chapter 3: Data Structures and Examples,110
 ```
 
-2. Run the script:
+Run the script:
 
 ```bash
 python pdf2split.py -pdf input.pdf -csv split_points.csv
 ```
 
-3. Example output:
+Example output:
 
 ```
 ✅ Chapter_1_Getting_Started_with_Algorithms_part1.pdf (pages 1–45)
@@ -54,12 +56,28 @@ python pdf2split.py -pdf input.pdf -csv split_points.csv
 
 ---
 
+### 2. Split by Size (no CSV)
+
+If no CSV is provided, the script will automatically split the PDF into parts under the size limit.
+The target platform determines the size threshold:
+- ChatGPT (default) → ~20MB
+- NotebookLM → ~200MB
+Examples:
+```bash
+# Default: ChatGPT (~20MB)
+python pdf2split.py -pdf input.pdf
+
+# NotebookLM (~200MB)
+python pdf2split.py -pdf input.pdf --target notebooklm
+```
+
+---
+
 ## Output
 
-* A separate PDF is generated for each chapter.  
-* Filenames are automatically derived from chapter titles.  
-* If a chapter exceeds 20MB, it will be automatically split into multiple files, with sequential numbering appended to the filename.  
-* Each output PDF includes a bookmark pointing to the first page.
+* A separate PDF is generated for each chapter (if CSV provided) or by size chunks (if no CSV).
+* Filenames are automatically derived from chapter titles or the original PDF name.
+* If a file exceeds the size limit, it will be automatically split into multiple files, with sequential numbering appended to the filename.
 
 ---
 
@@ -69,4 +87,5 @@ MIT License
 
 Copyright (c) 2025 freedomcat
 
+```
 
