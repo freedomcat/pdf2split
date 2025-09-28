@@ -1,6 +1,5 @@
 ## README.md (English, MIT License included)
 
-````markdown
 # pdf2split
 
 `pdf2split` is a lightweight Python script to **split a large PDF into chapters based on a CSV index, or automatically by file size**.  
